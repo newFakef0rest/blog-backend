@@ -27,13 +27,9 @@ import { UserController, PostController } from "./controllers/index.js";
 
 // Подключение к Базе Данных (нужно вписывать пароль и имя БД)
 
-mongoose
-  .connect(
-    "mongodb+srv://admin:sobakasobaka@fakef0rest.sj9a0t5.mongodb.net/blog"
-  )
-  .then(() => {
-    console.log("Connected to MongoDB");
-  });
+mongoose.connect(process.env.MONGODB_URL).then(() => {
+  console.log("Connected to MongoDB");
+});
 
 const app = express();
 
