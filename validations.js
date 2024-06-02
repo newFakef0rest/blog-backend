@@ -13,47 +13,47 @@ export const loginValidation = [
 
 export const registerValidation = [
   body("email", "Incorrect Email").isEmail(),
-  body("password", "The password has to contain minimum 5 symbols").isLength({
+  body("password", "Пароль должен содержать минимум 5 символов").isLength({
     min: 5,
   }),
-  body("fullName", "The name has to contain minimum e symbols").isLength({
+  body("fullName", "Имя должно содержать минимум 3 символа").isLength({
     min: 3,
   }),
-  body("avatarUrl", "Incorrect URL").optional().isURL(),
+  body("avatarUrl", "Неправильный URL").optional().isURL(),
 ];
 
 export const postCreateValidation = [
-  body("title", "The title has to contain minimum 3 symbols")
+  body("title", "Заголовок должен содержать минимум 3 символа")
     .isLength({
       min: 3,
     })
     .isString(),
-  body("text", "The content has to contain minimum 10 symbols")
+  body("text", "Контент должен содержать минимум 10 символов")
     .isLength({
       min: 10,
     })
     .isString(),
-  body("tags", "The tags has to contain minimum 1 symbol")
+  body("tags", "Теги должны содержать минимум 1 символ")
     .optional()
     .isArray({ min: 1 }),
   body("imageUrl", "Incorrect URL").optional().isString(),
 ];
 
 export const postUpdateValidation = [
-  body("title", "The title has to contain minimum 3 symbols")
+  body("title", "Заголовок должен содержать минимум 3 символа")
     .optional()
     .isLength({
       min: 3,
     })
     .isString(),
-  body("text", "The content has to contain minimum 10 symbols")
+  body("text", "Контент должен содержать минимум 10 символов")
     .optional()
     .isLength({
       min: 10,
     })
     .isString(),
-  body("tags", "The tags has to contain minimum 1 symbol")
+  body("tags", "Теги должны содержать минимум 1 символ")
     .optional()
     .isArray({ min: 1 }),
-  body("imageUrl", "Incorrect URL").optional().isString(),
+  body("imageUrl", "Неправильный URL").optional().isString(),
 ];

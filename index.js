@@ -104,9 +104,17 @@ app.delete("/upload", CheckAuth, upload.single("image"), async (req, res) => {
 
 app.get("/posts", PostController.getAll);
 
+app.get("/posts/popular", PostController.getPopular);
+
 // Получение тегов
 
 app.get("/posts/tags", PostController.getLastTags);
+
+app.get("/posts/tags/popular", PostController.getPopularTags);
+
+app.get("/posts/tags/:tag", PostController.getByTag);
+
+// Получение одного поста
 
 app.get("/posts/:id", PostController.getOne);
 

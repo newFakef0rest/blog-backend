@@ -134,3 +134,68 @@ export const getLastTags = async (req, res) => {
     errorFunc(err, res);
   }
 };
+
+export const getPopular = async (req, res) => {
+  try {
+    // Получение самых популярных постов
+
+    const posts = await PostModel.find()
+      .sort({ viewsCount: -1 })
+      .populate("user");
+
+    // Проверка на наличие постов
+    if (posts.length === 0) {
+      return res.status(404).json({ message: "Posts not found" });
+    }
+
+    res.json(posts);
+  } catch (err) {
+    errorFunc(err, res);
+  }
+};
+
+export const getPopularTags = async (req, res) => {
+  try {
+    // Получение самых популярных тегов
+
+    const posts = await PostModel.find().sort({ viewsCount: -1 });
+
+    // Проверка на наличие постов
+    if (posts.length === 0) {
+      return res.status(404).json({ message: "Posts not found" });
+    }
+
+    const tags = posts
+      .map((obj) => obj.tags)
+      .flat()
+      .slice(0, 5);
+
+    res.json(tags);
+  } catch (err) {
+    errorFunc(err, res);
+  }
+};
+
+export const getByTag = async (req, res) => {
+  try {
+    // Получение передаваемого тега
+
+    const tag = req.params.tag;
+
+    console.log(tag);
+
+    // Поиск постов по тегу
+
+    const posts = await PostModel.find({ tags: tag });
+
+    // Проверка на наличие постов
+
+    if (posts.length === 0) {
+      return res.status(404).json({ message: "Posts not found" });
+    }
+
+    res.json(posts);
+  } catch (err) {
+    errorFunc(err, res);
+  }
+};
