@@ -1,5 +1,6 @@
 import express from "express";
 import multer from "multer";
+import fs from "fs";
 import cors from "cors";
 
 import mongoose from "mongoose";
@@ -27,13 +28,9 @@ import { UserController, PostController } from "./controllers/index.js";
 
 // Подключение к Базе Данных (нужно вписывать пароль и имя БД)
 
-mongoose
-  .connect(
-    "mongodb+srv://admin:sobakasobaka@fakef0rest.sj9a0t5.mongodb.net/blog"
-  )
-  .then(() => {
-    console.log("Connected to MongoDB");
-  });
+mongoose.connect(process.env.MONGODB_URI).then(() => {
+  console.log("Connected to MongoDB");
+});
 
 const app = express();
 
@@ -41,6 +38,7 @@ const app = express();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    if (!fs.existsSync("uploads")) fs.mkdirSync("uploads");
     cb(null, "uploads");
   },
   filename: (req, file, cb) => {
