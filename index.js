@@ -2,8 +2,14 @@ import express from "express";
 import multer from "multer";
 import fs from "fs";
 import cors from "cors";
+import { promisify } from "util";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 import mongoose from "mongoose";
+
+const unlinkAsync = promisify(fs.unlink);
 
 // Расширение обязательно выписывать
 
@@ -25,7 +31,6 @@ import CheckAuth from "./utils/checkAuth.js";
 // Импорт контроллеров
 
 import { UserController, PostController } from "./controllers/index.js";
-
 // Подключение к Базе Данных (нужно вписывать пароль и имя БД)
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
@@ -86,6 +91,15 @@ app.post("/upload", CheckAuth, upload.single("image"), (req, res) => {
   });
 });
 
+app.delete("/upload", CheckAuth, upload.single("image"), async (req, res) => {
+  try {
+    await unlinkAsync(`.${req.body.url}`);
+    res.json({ message: "File deleted" });
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 // Посты
 
 app.get("/posts", PostController.getAll);
@@ -114,10 +128,10 @@ app.patch(
   PostController.updateOne
 );
 
-app.listen(process.env.PORT || 5000, (err) => {
+app.listen(process.env.PORT, (err) => {
   if (err) {
     return console.error(err);
   }
 
-  console.log("server is running on port 5000");
+  console.log(`server is running on port ${process.env.PORT}`);
 });
