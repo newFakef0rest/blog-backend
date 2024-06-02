@@ -27,7 +27,7 @@ import { UserController, PostController } from "./controllers/index.js";
 
 // Подключение к Базе Данных (нужно вписывать пароль и имя БД)
 
-mongoose.connect(process.env.MONGODB_URL).then(() => {
+mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log("Connected to MongoDB");
 });
 
