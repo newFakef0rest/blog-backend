@@ -112,7 +112,7 @@ app.patch(
   PostController.updateOne
 );
 
-app.listen(5000, (err) => {
+app.listen(process.env.PORT || 5000, (err) => {
   if (err) {
     return console.error(err);
   }
